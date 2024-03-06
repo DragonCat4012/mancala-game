@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +19,7 @@ public class Game {
     @Id
     private String id;
     private List<Pit> pits;
+    private List<String> connectedPlayers;
     private GameStatusEnum status;
     private Player firstPlayer;
     private Player secondPlayer;
@@ -32,6 +32,7 @@ public class Game {
     public Game() {
         this.lastStr = "None";
         this.pits = new ArrayList<>();
+        this.connectedPlayers = new ArrayList<>();
 
         playerTurn = PlayerTurnEnum.FIRST_PLAYER;
     }

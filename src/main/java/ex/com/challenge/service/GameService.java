@@ -9,6 +9,9 @@ import ex.com.challenge.model.GameStatusEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +30,8 @@ public class GameService {
         Game game = new Game();
         game.setId(UUID.randomUUID().toString());
         game.setFirstPlayer(player);
+        game.setConnectedPlayers(Arrays.asList(player.getName()));
+
         game.setStatus(GameStatusEnum.NEW);
         gameRepository.save(game);
         return game;
@@ -43,6 +48,9 @@ public class GameService {
         }
 
         game.setSecondPlayer(player);
+        var arr = game.getConnectedPlayers();
+        arr.add(player.getName());
+        game.setConnectedPlayers(arr);
         game.setStatus(GameStatusEnum.IN_PROGRESS);
         gameRepository.save(game);
         return game;

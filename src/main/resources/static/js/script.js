@@ -36,8 +36,6 @@ function makeAMove(id) {
 }
 
 function refreshGameBoard(data) {
-
-
     let pits = data.pits;
     for (let i = 0; i < pits.length; i++) {
         $("#pit_" + i).text(pits[i].stones);
@@ -51,6 +49,7 @@ function refreshGameBoard(data) {
     $("#secondPlayerName").text(data.secondPlayer== null ? "second player" : data.secondPlayer.name + "'s larger pit");
     console.log(data)
     $("#gameLastStr").text(data.lastStr + " <3");
+    $("#playerlist").text(data.connectedPlayers.join(","));
 
     if (playerType == "FIRST_PLAYER") {
         $("#firstPlayerName").background="#1472a9";
@@ -61,9 +60,7 @@ function refreshGameBoard(data) {
         $("#secondPlayerName").background ="#1472a9";
         $("#firstPlayerName").background="#333";
         $("#opponentLogin").text(data.firstPlayer.name);
-
     }
-
 }
 
 

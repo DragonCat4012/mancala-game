@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Ehsan Sh
  */
 
-
 public class MancalaRestSteps {
 
     @Autowired
@@ -36,7 +35,8 @@ public class MancalaRestSteps {
         firstPlayerTest = new Player(firstUserName);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Player> request = new HttpEntity<>(firstPlayerTest, headers);
-        ResponseEntity<Game> gameResponseEntity = testRestTemplate.exchange("/game/create", HttpMethod.POST, request, Game.class);
+        ResponseEntity<Game> gameResponseEntity = testRestTemplate.exchange("/game/create", HttpMethod.POST, request,
+                Game.class);
         game = gameResponseEntity.getBody();
     }
 
@@ -47,7 +47,6 @@ public class MancalaRestSteps {
         assertEquals(game.getStatus(), NEW);
     }
 
-
     @When("second user connect to the game {string}")
     public void whenSecondUserJoinTheGame(String secondUserName) {
         secondPlayerTest = new Player(secondUserName);
@@ -57,7 +56,8 @@ public class MancalaRestSteps {
         connectRequest.setPlayer(secondPlayerTest);
         HttpEntity<ConnectRequest> request = new HttpEntity<>(connectRequest, headers);
 
-        ResponseEntity<Game> gameResponseEntity = testRestTemplate.exchange("/game/connect", HttpMethod.POST, request, Game.class);
+        ResponseEntity<Game> gameResponseEntity = testRestTemplate.exchange("/game/connect", HttpMethod.POST, request,
+                Game.class);
         game = gameResponseEntity.getBody();
     }
 
@@ -69,17 +69,16 @@ public class MancalaRestSteps {
         assertEquals(game.getStatus(), IN_PROGRESS);
     }
 
-
     //@When("^first user play for the first time and sow pit$")
     @When("first user play for the first time and sow pit {int}")
     public void whenFirstUserPlay1th(int pitIndex) {
         HttpHeaders headers = new HttpHeaders();
         Sow sow = new Sow();
         sow.setGameId(game.getId());
-        sow.setPitIndex(pitIndex);
         HttpEntity<Sow> request = new HttpEntity<>(sow, headers);
 
-        ResponseEntity<Game> gameResponseEntity = testRestTemplate.exchange("/game/sow", HttpMethod.POST, request, Game.class);
+        ResponseEntity<Game> gameResponseEntity = testRestTemplate.exchange("/game/sow", HttpMethod.POST, request,
+                Game.class);
         game = gameResponseEntity.getBody();
     }
 
@@ -94,7 +93,6 @@ public class MancalaRestSteps {
         HttpHeaders headers = new HttpHeaders();
         Sow sow = new Sow();
         sow.setGameId(game.getId());
-        sow.setPitIndex(2);
         HttpEntity<Sow> request = new HttpEntity<>(sow, headers);
 
         outOfTurnResponseEntity = testRestTemplate.exchange("/game/sow", HttpMethod.POST, request, String.class);
@@ -106,6 +104,5 @@ public class MancalaRestSteps {
         assertEquals(outOfTurnResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertEquals(outOfTurnResponseEntity.getBody(), "Bad Turn or Pit!");
     }
-
 
 }

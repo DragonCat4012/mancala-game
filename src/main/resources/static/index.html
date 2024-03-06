@@ -26,18 +26,17 @@
     <body>
         <div class="text-center" id="box">
             <header>
-                <h1>Enjoy this</h1>
+                <h1>Shyv ♡</h1>
             </header>
-            <a id="game_id_display">Current game: </a>
-            <br />
-            <a id="gameLastStr"> - </a>
-            <br />
 
             <div id="gameParts">
                 <input id="name" placeholder="Place a name here">
                 <br />
                 <button name="createNewGameBtn" onclick="create_game()">Create a new game</button>
-                <button onclick="connectToRandom()">Connect to random game</button>
+                <!-- 
+                     <button onclick="connectToRandom()">Connect to random game</button>
+               
+                -->
                 <br />
                 <input id="game_id" placeholder="Paste game id">
                 <button name="connectByGameIdBtn" onclick="connectToSpecificGame()">Connect by game id</button>
@@ -50,9 +49,12 @@
             <button id="playElemnt" onclick="makeTurn()">Value</button>
             <button onclick="hideGameOptions()">Hide options</button>
 
-
             <footer>
-                <span>You are playing with <span id="opponentLogin"></span></span>
+                <span>Last word: <span id="gameLastStr"></span></span>
+                <br />
+                <span>You are playing with: <span id="gameLastStr"></span></span>
+                <br />
+                <span>Current game ID: <span id="game_id_display"></span></span>
             </footer>
         </div>
         <script src="js/script.js"></script>
