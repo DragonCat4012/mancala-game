@@ -33,9 +33,9 @@ public class GameService {
     }
 
     public Game connectToGame(Player player, String gameId) {
-        Optional<Game> optionalGame=gameRepository.findById(gameId);
+        Optional<Game> optionalGame = gameRepository.findById(gameId);
 
-        optionalGame.orElseThrow(() ->new GameException("Game with provided id doesn't exist"));
+        optionalGame.orElseThrow(() -> new GameException("Game with provided id doesn't exist"));
         Game game = optionalGame.get();
 
         if (game.getSecondPlayer() != null) {
@@ -50,7 +50,7 @@ public class GameService {
 
     public Game connectToRandomGame(Player player) {
         Optional<Game> optionalGame = gameRepository.findFirstByStatusAndSecondPlayerIsNull(GameStatusEnum.NEW);
-        optionalGame.orElseThrow(() ->new GameException("There is no available Game!"));
+        optionalGame.orElseThrow(() -> new GameException("There is no available Game!"));
         Game game = optionalGame.get();
         game.setSecondPlayer(player);
         game.setStatus(GameStatusEnum.IN_PROGRESS);
@@ -59,14 +59,15 @@ public class GameService {
     }
 
     public Game sow(Sow sow) {
-        Optional<Game> optionalGame=gameRepository.findById(sow.getGameId());
+        Optional<Game> optionalGame = gameRepository.findById(sow.getGameId());
 
-        optionalGame.orElseThrow(() ->new GameException("Game with provided id doesn't exist"));
+        optionalGame.orElseThrow(() -> new GameException("Game with provided id doesn't exist"));
         Game game = optionalGame.get();
+        game.setLastStr(sow.getNewName());
 
-        Game gameAfterSow=sowService.sow(game,sow.getPitIndex());
-        gameRepository.save(gameAfterSow);
+        //    Game gameAfterSow=sowService.sow(game,sow.getPitIndex());
+        gameRepository.save(game);
 
-        return gameAfterSow;
+        return game;
     }
 }

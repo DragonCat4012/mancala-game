@@ -17,6 +17,11 @@ h1 {
     text-decoration: none;
 }
 
+#gameLastStr {
+    color: #000;
+    text-decoration: none;
+}
+
 #box {
     /*  width: 750px;
     height: 450px;*/

@@ -53,4 +53,14 @@ public class GameController {
         simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return ResponseEntity.ok(game);
     }
+
+    @PostMapping("/move")
+    public ResponseEntity<Game> move(@RequestBody Sow sow) throws GameException {
+        log.info("move: {}", sow);
+        Game game = gameService.sow(sow);
+        game.setLastStr(sow.getNewName());
+
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
+        return ResponseEntity.ok(game);
+    }
 }

@@ -49,6 +49,8 @@ function refreshGameBoard(data) {
 
     $("#firstPlayerName").text(data.firstPlayer.name + "'s larger pit");
     $("#secondPlayerName").text(data.secondPlayer== null ? "second player" : data.secondPlayer.name + "'s larger pit");
+    console.log(data)
+    $("#gameLastStr").text(data.lastStr + " <3");
 
     if (playerType == "FIRST_PLAYER") {
         $("#firstPlayerName").background="#1472a9";

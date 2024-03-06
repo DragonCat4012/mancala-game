@@ -9,6 +9,6 @@ import lombok.Data;
 @Data
 public class Sow {
     private String gameId;
-    private Integer pitIndex;
+    private String newName;
 
 }

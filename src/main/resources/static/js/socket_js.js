@@ -36,6 +36,7 @@ function create_game() {
                 playerType = 'FIRST_PLAYER';
                 refreshGameBoard(data);
                 connectToSocket(gameId);
+                document.getElementById("playElemnt").textContent = "Doggo";
                 document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
              //   alert("Your created a game. Game id is: " + data.id);
             },
@@ -46,6 +47,28 @@ function create_game() {
     }
 }
 
+function makeTurn() {
+    let name = document.getElementById("playElemnt").textContent;
+
+    $.ajax({
+        url: url + "/game/move",
+        type: 'POST',
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "gameId": gameId,
+            "newName": name
+        }),
+        success: function (data) {
+            gameId = data.id;
+            refreshGameBoard(data);
+            connectToSocket(gameId);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}
 
 function connectToRandom() {
     let name = document.getElementById("name").value;
@@ -65,6 +88,7 @@ function connectToRandom() {
                 playerType = "SECOND_PLAYER";
                 refreshGameBoard(data);
                 connectToSocket(gameId);
+                document.getElementById("playElemnt").textContent = "Gatze";
                 document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
                 alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
@@ -100,6 +124,7 @@ function connectToSpecificGame() {
                 playerType = "SECOND_PLAYER";
                 refreshGameBoard(data);
                 connectToSocket(gameId);
+                document.getElementById("playElemnt").textContent = "Gatze";
                 document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
             //    alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
