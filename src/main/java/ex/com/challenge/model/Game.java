@@ -18,26 +18,18 @@ import java.util.List;
 public class Game {
     @Id
     private String id;
-    private List<Pit> pits;
     private List<String> connectedPlayers;
     private GameStatusEnum status;
     private Player firstPlayer;
     private Player secondPlayer;
     private Player winner;
-
     private String lastStr;
-
     private PlayerTurnEnum playerTurn;
 
     public Game() {
         this.lastStr = "None";
-        this.pits = new ArrayList<>();
         this.connectedPlayers = new ArrayList<>();
 
         playerTurn = PlayerTurnEnum.FIRST_PLAYER;
-    }
-
-    public Pit getPitByIndex(Integer index) {
-        return pits.get(index - 1);
     }
 }

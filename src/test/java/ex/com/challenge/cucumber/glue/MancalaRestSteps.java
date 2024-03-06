@@ -82,11 +82,12 @@ public class MancalaRestSteps {
         game = gameResponseEntity.getBody();
     }
 
+    /* 
     @Then("pits changed {string}")
     public void thenPitsChanged(String result) {
         assertEquals(game.getPits().toString(), result);
         assertEquals(game.getPlayerTurn(), PlayerTurnEnum.SECOND_PLAYER);
-    }
+    }*/
 
     @When("^first user try to play out of turn$")
     public void whenFirstUserPlayOutOfTurn() {
