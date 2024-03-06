@@ -36,7 +36,8 @@ function create_game() {
                 playerType = 'FIRST_PLAYER';
                 refreshGameBoard(data);
                 connectToSocket(gameId);
-                alert("Your created a game. Game id is: " + data.id);
+                document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
+             //   alert("Your created a game. Game id is: " + data.id);
             },
             error: function (error) {
                 console.log(error);
@@ -64,6 +65,7 @@ function connectToRandom() {
                 playerType = "SECOND_PLAYER";
                 refreshGameBoard(data);
                 connectToSocket(gameId);
+                document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
                 alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {
@@ -98,7 +100,8 @@ function connectToSpecificGame() {
                 playerType = "SECOND_PLAYER";
                 refreshGameBoard(data);
                 connectToSocket(gameId);
-                alert("Congrats you're playing with: " + data.firstPlayer.name);
+                document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
+            //    alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {
                 console.log(error);

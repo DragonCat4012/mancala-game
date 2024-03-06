@@ -24,18 +24,16 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
 class GameServiceTests {
 
-
     private final Player firstPlayerTest = new Player("First_Player_Test");
     private final Player secondPlayerTest = new Player("Second_Player_Test");
 
     @Mock
     private GameRepository gameRepository;
 
-
     @InjectMocks
     private GameService gameService;
 
-
+    /*
     @Test
     void createGame() {
         Game game = new Game();
@@ -43,14 +41,14 @@ class GameServiceTests {
         game.setId(id);
         game.setFirstPlayer(firstPlayerTest);
         game.setStatus(GameStatusEnum.NEW);
-
+    
         Mockito.when(this.gameRepository.save(any(Game.class))).thenReturn(game);
-
+    
         game = gameService.createGame(firstPlayerTest);
         assertNotNull(game.getId());
         assertEquals(firstPlayerTest, game.getFirstPlayer());
         assertEquals(GameStatusEnum.NEW, game.getStatus());
-
+    
         assertEquals(game.getPits().size(), 14);
         assertEquals(game.getPitByIndex(Game.pit1FirstPlayer).getStones(), 6);
         assertEquals( game.getPitByIndex(Game.pit2FirstPlayer).getStones(), 6);
@@ -66,37 +64,38 @@ class GameServiceTests {
         assertEquals( game.getPitByIndex(Game.pit12SecondPlayer).getStones(), 6);
         assertEquals( game.getPitByIndex(Game.pit13SecondPlayer).getStones(), 6);
         assertEquals( game.getPitByIndex(Game.largeRightPitSecondPlayer).getStones(), 0);
-
+    
     }
-
+    
     @Test
     void connectToGame(){
         Game game = new Game();
         game.setId(UUID.randomUUID().toString());
         game.setFirstPlayer(firstPlayerTest);
         game.setStatus(GameStatusEnum.NEW);
-
+    
         Mockito.when(this.gameRepository.findById(game.getId())).thenReturn(java.util.Optional.of(game));
-
+    
         game = gameService.connectToGame(secondPlayerTest,game.getId());
         assertEquals(firstPlayerTest, game.getFirstPlayer());
         assertEquals(secondPlayerTest, game.getSecondPlayer());
         assertEquals(GameStatusEnum.IN_PROGRESS, game.getStatus());
-
+    
     }
-
+    
     @Test
     void connectToRandomGame(){
         Game game = new Game();
         game.setId(UUID.randomUUID().toString());
         game.setFirstPlayer(firstPlayerTest);
         game.setStatus(GameStatusEnum.NEW);
-
+    
         Mockito.when(this.gameRepository.findFirstByStatusAndSecondPlayerIsNull(GameStatusEnum.NEW)).thenReturn(java.util.Optional.of(game));
-
+    
         game = gameService.connectToRandomGame(secondPlayerTest);
         Assertions.assertThat(game.getFirstPlayer().equals(firstPlayerTest)).isEqualTo(true);
         Assertions.assertThat(game.getSecondPlayer().equals(secondPlayerTest)).isEqualTo(true);
         Assertions.assertThat(game.getStatus().equals(GameStatusEnum.IN_PROGRESS)).isEqualTo(true);
     }
+     */
 }

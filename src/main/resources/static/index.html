@@ -1,210 +1,52 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-          name="viewport">
+        name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
-    <title>Document</title>
+    <title>Shyv</title>
     <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}" type="text/css" />
     <!--    libs for stomp and sockjs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <!--    end libs for stomp and sockjs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
-<body>
-<body>
-<div class="text-center" id="box">
-    <header>
-        <h1>Enjoy Mancala Game</h1>
-    </header>
-    <input id="name" placeholder="Place a name here">
-    <button name="createNewGameBtn" onclick="create_game()">Create a new game</button>
-    <button onclick="connectToRandom()">Connect to random game</button>
-    <br/>
-    <input id="game_id" placeholder="Paste game id">
-    <button name="connectByGameIdBtn" onclick="connectToSpecificGame()">Connect by game id</button>
-    <br/>
-    <div id="message"></div>
-    <TABLE id="gameBoard">
-        <tr>br</tr>
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName" id="secondPlayerName">Larger Pit</td>
-                    </tr>
-                    <tr>
-                        <td class="largerPitValue" id="pit_13">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">13</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_12">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">12</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_11">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">11</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_10">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">10</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_9">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">9</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_8">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">8</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_7">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="addedPit"></td>
-                    </tr>
-                    <tr>
-                        <td class="addedPit" ></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td class="addedPit"></td>
-                    </tr>
-                    <tr>
-                        <td class="addedPit" ></td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">1</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_0">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">2</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_1">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">3</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_2">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">4</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_3">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">5</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_4">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName">6</td>
-                    </tr>
-                    <tr>
-                        <td class="pitValue" id="pit_5">0</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td class="pitName" id="firstPlayerName">Larger Pit</td>
-                    </tr>
-                    <tr>
-                        <td class="largerPitValue" id="pit_6">0</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
 
+<body>
 
-    </TABLE>
-    <div class="clearfix"></div>
-    <footer>
-        <span>You are playing with <span id="opponentLogin"></span></span>
-    </footer>
-</div>
-<script src="js/script.js"></script>
-<script src="js/socket_js.js"></script>
+    <body>
+        <div class="text-center" id="box">
+            <header>
+                <h1>Enjoy this</h1>
+            </header>
+            <a id="game_id_display">Current game: </a>>
+            <br />
+
+            <input id="name" placeholder="Place a name here">
+            <button name="createNewGameBtn" onclick="create_game()">Create a new game</button>
+            <button onclick="connectToRandom()">Connect to random game</button>
+            <br />
+            <input id="game_id" placeholder="Paste game id">
+            <button name="connectByGameIdBtn" onclick="connectToSpecificGame()">Connect by game id</button>
+            <br />
+            <div id="message"></div>
+            <div class="clearfix"></div>
+            <footer>
+                <span>You are playing with <span id="opponentLogin"></span></span>
+            </footer>
+        </div>
+        <script src="js/script.js"></script>
+        <script src="js/socket_js.js"></script>
+    </body>
 </body>
-</body>
+
 </html>

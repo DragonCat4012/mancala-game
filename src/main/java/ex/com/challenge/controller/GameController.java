@@ -40,13 +40,13 @@ public class GameController {
     }
 
     @PostMapping("/connect/random")
-    public ResponseEntity<Game> connectRandom(@RequestBody Player player) throws GameException{
+    public ResponseEntity<Game> connectRandom(@RequestBody Player player) throws GameException {
         log.info("connect random {}", player);
         return ResponseEntity.ok(gameService.connectToRandomGame(player));
     }
 
     @PostMapping("/sow")
-    public ResponseEntity<Game> sow(@RequestBody Sow sow) throws  GameException {
+    public ResponseEntity<Game> sow(@RequestBody Sow sow) throws GameException {
         log.info("sow: {}", sow);
         Game game = gameService.sow(sow);
 
