@@ -4,7 +4,6 @@ let gameId;
 let playerType;
 
 function connectToSocket(gameId) {
-
     console.log("connecting to the game");
     let socket = new SockJS(url + "/sow");
     stompClient = Stomp.over(socket);
@@ -89,7 +88,7 @@ function connectToRandom() {
                 refreshGameBoard(data);
                 connectToSocket(gameId);
                 document.getElementById("playElemnt").textContent = "Gatze";
-                document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
+                document.getElementById("game_id_display").textContent = "You connected to a game. Game id is: " + data.id;
                 alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {
@@ -97,6 +96,16 @@ function connectToRandom() {
             }
         })
     }
+}
+
+function hideGameOptions() {
+    let element = document.getElementById("gameParts")
+
+    if (element.style.visibility=="hidden") {
+        element.style.visibility="visible"
+    } else {
+        element.style.visibility="hidden"
+    } 
 }
 
 function connectToSpecificGame() {
@@ -125,7 +134,7 @@ function connectToSpecificGame() {
                 refreshGameBoard(data);
                 connectToSocket(gameId);
                 document.getElementById("playElemnt").textContent = "Gatze";
-                document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
+                document.getElementById("game_id_display").textContent = "You connected to a game. Game id is: " + data.id;
             //    alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {

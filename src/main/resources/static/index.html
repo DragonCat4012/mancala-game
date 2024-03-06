@@ -33,18 +33,22 @@
             <a id="gameLastStr"> - </a>
             <br />
 
-            <input id="name" placeholder="Place a name here">
-            <button name="createNewGameBtn" onclick="create_game()">Create a new game</button>
-            <button onclick="connectToRandom()">Connect to random game</button>
-            <br />
-            <input id="game_id" placeholder="Paste game id">
-            <button name="connectByGameIdBtn" onclick="connectToSpecificGame()">Connect by game id</button>
+            <div id="gameParts">
+                <input id="name" placeholder="Place a name here">
+                <br />
+                <button name="createNewGameBtn" onclick="create_game()">Create a new game</button>
+                <button onclick="connectToRandom()">Connect to random game</button>
+                <br />
+                <input id="game_id" placeholder="Paste game id">
+                <button name="connectByGameIdBtn" onclick="connectToSpecificGame()">Connect by game id</button>
+            </div>
+
             <br />
             <div id="message"></div>
             <div class="clearfix"></div>
 
             <button id="playElemnt" onclick="makeTurn()">Value</button>
-
+            <button onclick="hideGameOptions()">Hide options</button>
 
 
             <footer>
