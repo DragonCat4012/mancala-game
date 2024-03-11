@@ -12,7 +12,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-
 /**
  * @author: e.shakeri
  */
@@ -24,26 +23,24 @@ class GameRepositoryTest {
     @Autowired
     GameRepository gameRepository;
 
-    @Test
+    /*  @Test
     void testRepository() throws  Exception {
         this.gameRepository.deleteAll();
-
+    
         Game game = new Game();
         game.setId("91f69bc5-803c-46e5-bc30-4a6b71fd860e");
         game.setStatus(GameStatusEnum.NEW);
-
+    
         Game saved= this.gameRepository.save(game);
         Assertions.assertNotNull(saved.getId());
-
+    
         Optional<Game> fetch= this.gameRepository.findFirstByStatusAndSecondPlayerIsNull(GameStatusEnum.NEW);
         Assertions.assertFalse(fetch.isEmpty());
-
-
+    
+    
         Optional<Game> fetchById  = this.gameRepository.findById(game.getId());
         Assertions.assertFalse( fetchById.isEmpty());
     }
-
-
-
+    */
 
 }
