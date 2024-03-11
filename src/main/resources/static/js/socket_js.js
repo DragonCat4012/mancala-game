@@ -38,6 +38,7 @@ function create_game() {
                 connectToSocket(gameId);
                 document.getElementById("playElemnt").textContent = "Doggo";
                 document.getElementById("game_id_display").textContent = data.id;
+                updateCopyIDButton("visible")
              //   alert("Your created a game. Game id is: " + data.id);
             },
             error: function (error) {
@@ -91,6 +92,7 @@ function connectToRandom() {
                 document.getElementById("playElemnt").textContent = "Gatze";
                 document.getElementById("game_id_display").textContent = data.id;
                 alert("Congrats you're playing with: " + data.firstPlayer.name);
+                updateCopyIDButton("visible")
             },
             error: function (error) {
                 console.log(error);
@@ -167,6 +169,11 @@ function hideGameOptions() {
     } 
 }
 
+function updateCopyIDButton(style) {
+    let element = document.getElementById("gameIDCopy")
+    element.style.visibility=style
+}
+
 function connectToSpecificGame() {
     let name = document.getElementById("name").value;
     if (name == null || name === '') {
@@ -194,6 +201,7 @@ function connectToSpecificGame() {
                 connectToSocket(gameId);
                 document.getElementById("playElemnt").textContent = "Gatze";
                 document.getElementById("game_id_display").textContent = data.id;
+                updateCopyIDButton("visible")
             //    alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {

@@ -58,7 +58,7 @@ function refreshGameBoard(data) {
     }
 }
 
-$(".pitValue").click(function () {
-    var pitId = $(this).attr('id');
-    playerTurn(parseInt(pitId.substring(4)) + 1);
-});
+function copyGameID() {
+    var copyText = document.getElementById("game_id_display");
+    navigator.clipboard.writeText(copyText.textContent);
+}
