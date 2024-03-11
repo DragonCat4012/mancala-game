@@ -36,10 +36,7 @@ function makeAMove(id) {
 }
 
 function refreshGameBoard(data) {
-    let pits = data.pits;
-    for (let i = 0; i < pits.length; i++) {
-        $("#pit_" + i).text(pits[i].stones);
-    }
+  
     if (data.winner != null) {
         alert("Winner is " + data.winner.name);
     }
