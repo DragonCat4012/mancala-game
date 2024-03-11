@@ -1,17 +1,7 @@
-<a href="https://foojay.io/today/works-with-openjdk">
-   <img align="right" 
-        src="https://github.com/foojayio/badges/raw/main/works_with_openjdk/Works-with-OpenJDK.png"   
-        width="100">
-</a>
-
-Mancala Game
+Shyv
 ---
+Webscoket Game Base idk yet xd
 
-The complete walk-through tutorial about this implementation, I've published blog post here:
-
-[Create interactive game with Spring Boot and WebSocket](https://ehsanasadev.github.io/Create_interactive_game_with_Spring_Boot_and_WebSocket/)
-
-The goal is to design and develop an interactive game by using Spring boot and WebSocket. 
 
 Technologies
 ------------
@@ -29,5 +19,4 @@ Then,  I provided a docker file, so you should create an image.
 Finally, by the docker-compose file, you can launch it.
 Via the home page (http://localhost:8080/) you can access to the game UI.
 
-
-![game UI](/spring-websocket-mancala-game.png)
+[Base Source](https://ehsanasadev.github.io/Create_interactive_game_with_Spring_Boot_and_WebSocket/)
