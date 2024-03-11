@@ -36,7 +36,7 @@ function create_game() {
                 refreshGameBoard(data);
                 connectToSocket(gameId);
                 document.getElementById("playElemnt").textContent = "Doggo";
-                document.getElementById("game_id_display").textContent = "Your created a game. Game id is: " + data.id;
+                document.getElementById("game_id_display").textContent = data.id;
              //   alert("Your created a game. Game id is: " + data.id);
             },
             error: function (error) {
@@ -88,7 +88,7 @@ function connectToRandom() {
                 refreshGameBoard(data);
                 connectToSocket(gameId);
                 document.getElementById("playElemnt").textContent = "Gatze";
-                document.getElementById("game_id_display").textContent = "You connected to a game. Game id is: " + data.id;
+                document.getElementById("game_id_display").textContent = data.id;
                 alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {
@@ -134,7 +134,7 @@ function connectToSpecificGame() {
                 refreshGameBoard(data);
                 connectToSocket(gameId);
                 document.getElementById("playElemnt").textContent = "Gatze";
-                document.getElementById("game_id_display").textContent = "You connected to a game. Game id is: " + data.id;
+                document.getElementById("game_id_display").textContent = data.id;
             //    alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {

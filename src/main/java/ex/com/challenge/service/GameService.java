@@ -43,9 +43,9 @@ public class GameService {
         optionalGame.orElseThrow(() -> new GameException("Game with provided id doesn't exist"));
         Game game = optionalGame.get();
 
-        if (game.getSecondPlayer() != null) {
+        /*   if (game.getSecondPlayer() != null) {
             throw new GameException("Game is not valid anymore");
-        }
+        }*/
 
         game.setSecondPlayer(player);
         var arr = game.getConnectedPlayers();
