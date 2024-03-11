@@ -6,8 +6,8 @@ services:
     ports:
       - "27017:27017"
 
-  mancala:
-    image: "mancala"
+  shyv:
+    image: "shyv"
     ports:
       - "8080:8080"
     environment:

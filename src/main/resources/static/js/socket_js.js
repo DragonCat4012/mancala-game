@@ -1,4 +1,4 @@
-const url = 'http://localhost:8080';
+const url = '';
 let stompClient;
 let gameId;
 let playerType;
@@ -120,8 +120,7 @@ function showAllGames() {
 
                 // date
                 var d = new Date(game.createdAt)
-                console.log(d)
-                var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +  d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+                var datestring = ("0" + d.getDate()).slice(-2) + "." + ("0"+(d.getMonth()+1)).slice(-2) + "." +  d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
 
                 const nodeDateParent = document.createElement("p");
                 nodeDateParent.style.color = "gray"

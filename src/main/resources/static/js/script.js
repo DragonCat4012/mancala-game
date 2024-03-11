@@ -12,7 +12,6 @@ function playerTurn(id) {
         if (stones != "0") {
             makeAMove(id);
         }
-
     }
 }
 
@@ -36,7 +35,6 @@ function makeAMove(id) {
 }
 
 function refreshGameBoard(data) {
-  
     if (data.winner != null) {
         alert("Winner is " + data.winner.name);
     }
@@ -60,12 +58,7 @@ function refreshGameBoard(data) {
     }
 }
 
-
 $(".pitValue").click(function () {
     var pitId = $(this).attr('id');
     playerTurn(parseInt(pitId.substring(4)) + 1);
 });
-
-
-
-

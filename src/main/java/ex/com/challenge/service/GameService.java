@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,7 +58,7 @@ public class GameService {
     }
 
     public List<Game> getAllGames() {
-        return gameRepository.findAll();
+        return gameRepository.findAll().stream().sorted(Comparator.comparing(Game::getCreatedAt).reversed()).toList();
     }
 
     public Game connectToRandomGame(Player player) {

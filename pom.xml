@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ex.com.challenge</groupId>
-    <artifactId>mancala-challenge</artifactId>
+    <artifactId>shyv</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>mancala-challenge</name>
+    <name>shyv</name>
     <description>An educational challenge</description>
     <properties>
         <java.version>11</java.version>
