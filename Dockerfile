@@ -1,5 +1,5 @@
 
-FROM openjdk:11-jre-slim
+FROM openjdk:20-jdk-slim
 
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
