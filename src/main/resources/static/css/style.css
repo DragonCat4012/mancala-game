@@ -52,3 +52,13 @@ footer {
     text-align: center;
     padding-top: 20px;
 }
+
+#gamesLogEntry {
+    background-color: #212121;
+    border-color: #666;
+    border-radius: 8px;
+    border-width: 2px;
+    padding: 1%;
+    color: #fff;
+    margin: 1%;
+}

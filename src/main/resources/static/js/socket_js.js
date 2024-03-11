@@ -2,6 +2,7 @@ const url = 'http://localhost:8080';
 let stompClient;
 let gameId;
 let playerType;
+let gamesShown = false;
 
 function connectToSocket(gameId) {
     console.log("connecting to the game");
@@ -96,6 +97,58 @@ function connectToRandom() {
             }
         })
     }
+}
+
+function showAllGames() {
+    deleteOldGameslog()
+
+    if (gamesShown) {
+        gamesShown = false;
+        return
+    }
+    gamesShown = true;
+
+    $.ajax({
+        url: url + "/game/gameslog",
+        type: 'GET',
+        success: function (data) {
+            for (const game of data) {
+                // ...use `element`...
+                const node = document.createElement("div");
+                node.id = "gamesLogEntry"
+                const gameiD = document.createTextNode(game.id);
+
+                // date
+                var d = new Date(game.createdAt)
+                console.log(d)
+                var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +  d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+
+                const nodeDateParent = document.createElement("p");
+                nodeDateParent.style.color = "gray"
+                const dateNode = document.createTextNode(datestring);
+                nodeDateParent.appendChild(dateNode);
+
+               
+                node.appendChild(gameiD);
+                node.appendChild(nodeDateParent);
+                document.getElementById("gameslog").appendChild(node);
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}
+
+function deleteOldGameslog() {
+    let e = document.getElementById("gameslog");
+ 
+        //e.firstElementChild can be used. 
+        let child = e.lastElementChild;
+        while (child) {
+            e.removeChild(child);
+            child = e.lastElementChild;
+        }
 }
 
 function hideGameOptions() {

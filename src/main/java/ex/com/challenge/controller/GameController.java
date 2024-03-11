@@ -8,8 +8,12 @@ import ex.com.challenge.model.Player;
 import ex.com.challenge.service.GameService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,5 +66,11 @@ public class GameController {
 
         simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return ResponseEntity.ok(game);
+    }
+
+    @GetMapping("/gameslog")
+    public ResponseEntity<List<Game>> gameslog() throws GameException {
+        log.info("gameslog request:");
+        return ResponseEntity.ok(gameService.getAllGames());
     }
 }

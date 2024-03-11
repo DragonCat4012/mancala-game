@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,10 +26,12 @@ public class Game {
     private Player winner;
     private String lastStr;
     private PlayerTurnEnum playerTurn;
+    private Date createdAt;
 
     public Game() {
         this.lastStr = "None";
         this.connectedPlayers = new ArrayList<>();
+        this.createdAt = new Date();
 
         playerTurn = PlayerTurnEnum.FIRST_PLAYER;
     }
