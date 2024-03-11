@@ -61,6 +61,23 @@ public class GameService {
         return gameRepository.findAll().stream().sorted(Comparator.comparing(Game::getCreatedAt).reversed()).toList();
     }
 
+    public List<Game> getAllCurrentGames() {
+        return gameRepository.findAll().stream().filter(e -> e.getStatus() != GameStatusEnum.FINISHED)
+                .sorted(Comparator.comparing(Game::getCreatedAt).reversed()).toList();
+    }
+
+    public void endGame(String id) {
+        var game = gameRepository.findById(id);
+
+        if (game == null || game.get() == null) {
+            System.out.println("game to end not found:");
+            return;
+        }
+        Game gettedGame = game.get();
+        gettedGame.setStatus(GameStatusEnum.FINISHED);
+        gameRepository.save(gettedGame);
+    }
+
     public Game connectToRandomGame(Player player) {
         Optional<Game> optionalGame = gameRepository.findFirstByStatusAndSecondPlayerIsNull(GameStatusEnum.NEW);
         optionalGame.orElseThrow(() -> new GameException("There is no available Game!"));

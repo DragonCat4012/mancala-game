@@ -109,7 +109,10 @@ function showAllGames() {
         return
     }
     gamesShown = true;
+    loadGameLog()
+}
 
+function loadGameLog() {
     $.ajax({
         url: url + "/game/gameslog",
         type: 'GET',
@@ -136,9 +139,16 @@ function showAllGames() {
                 const dateNode = document.createTextNode(datestring);
                 nodeDateParent.appendChild(dateNode);
 
-               
+               // button
+                const finsihButton = document.createElement('button')
+                finsihButton.classList.add("btn")
+                const finsihButtonText = document.createTextNode("End");
+                finsihButton.appendChild(finsihButtonText)
+                finsihButton.onclick = function(){endgameFromList(game.id)};
+
                 node.appendChild(gameiD);
                 node.appendChild(nodeDateParent);
+                node.appendChild(finsihButton);
                 div.appendChild(node);
             }
         },
@@ -146,6 +156,23 @@ function showAllGames() {
             console.log(error);
         }
     })
+}
+
+function endgameFromList(gameId) {
+$.ajax({
+    url: url + "/game/endgame",
+    type: 'POST',
+    dataType: "json",
+    contentType: "application/json",
+    data: gameId,
+    success: function () {
+        showAllGames()
+    },
+    error: function (error) {
+       // console.log(error);
+        showAllGames()
+    }
+})
 }
 
 function deleteOldGameslog() {

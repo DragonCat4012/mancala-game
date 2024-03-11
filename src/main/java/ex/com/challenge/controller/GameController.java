@@ -71,6 +71,13 @@ public class GameController {
     @GetMapping("/gameslog")
     public ResponseEntity<List<Game>> gameslog() throws GameException {
         log.info("gameslog request:");
-        return ResponseEntity.ok(gameService.getAllGames());
+        return ResponseEntity.ok(gameService.getAllCurrentGames());
+    }
+
+    @PostMapping("/endgame")
+    public ResponseEntity<Void> endGame(@RequestBody String id) throws GameException {
+        log.info("game endend via request: {}", id);
+        gameService.endGame(id);
+        return ResponseEntity.ok().build();
     }
 }
