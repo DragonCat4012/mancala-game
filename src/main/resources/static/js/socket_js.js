@@ -112,6 +112,13 @@ function showAllGames() {
         url: url + "/game/gameslog",
         type: 'GET',
         success: function (data) {
+            let div = document.getElementById("gameslog");
+            const titleNode = document.createElement("h3");
+            const title = document.createTextNode("Active Games");
+            titleNode.appendChild(title);
+            div.appendChild(titleNode);
+            div.classList.add('sidenav');
+            
             for (const game of data) {
                 // ...use `element`...
                 const node = document.createElement("div");
@@ -130,7 +137,7 @@ function showAllGames() {
                
                 node.appendChild(gameiD);
                 node.appendChild(nodeDateParent);
-                document.getElementById("gameslog").appendChild(node);
+                div.appendChild(node);
             }
         },
         error: function (error) {
@@ -141,7 +148,7 @@ function showAllGames() {
 
 function deleteOldGameslog() {
     let e = document.getElementById("gameslog");
- 
+    e.classList.remove('sidenav');
         //e.firstElementChild can be used. 
         let child = e.lastElementChild;
         while (child) {
