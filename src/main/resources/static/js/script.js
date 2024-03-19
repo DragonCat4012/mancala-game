@@ -40,7 +40,6 @@ function copyGameID() {
 }
 
 function setPlayers(data) {
-    var colors = ["#83D4AC", "#E5B45F", "#F13939", "#E75DE2", "#796AE3"]
     let parentDiv = document.getElementById("playerlist2");
   
       // create playerList
@@ -57,7 +56,7 @@ function setPlayers(data) {
 
         const color = document.createElement("div")
         color.classList.add("playerSideNavDiv")
-        color.style.backgroundColor = colors[random]
+        color.style.backgroundColor =  player.color
 
         node.appendChild(color);
         node.appendChild(textNode);
