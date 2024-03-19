@@ -54,3 +54,9 @@ footer {
     text-align: center;
     padding-top: 20px;
 }
+
+.playerSideNavDiv {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+}

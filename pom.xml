@@ -8,11 +8,11 @@
         <version>2.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ex.com.challenge</groupId>
+    <groupId>akora.com</groupId>
     <artifactId>shyv</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>shyv</name>
-    <description>An educational challenge</description>
+    <description>some game idk</description>
     <properties>
         <java.version>11</java.version>
         <selenium.version>4.0.0-beta-4</selenium.version>

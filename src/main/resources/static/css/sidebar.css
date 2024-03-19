@@ -1,6 +1,7 @@
+/*GameList*/
 .sidenav {
     height: 100%;
-    width: 200px;
+    width: 20%;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -22,6 +23,27 @@
     color: #f1f1f1;
 }
 
+/*PlayerList*/
+.sidenavRight {
+    height: 100%;
+    width: 15%;
+    position: fixed !important;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: auto;
+    /*hidden*/
+    padding: 10px;
+}
+
+.sidenavRight p {
+    padding: 6px 6px 6px 6px;
+    color: #818181;
+    display: block;
+}
+
+/*Main*/
 .main {
     margin-left: 160px;
     /* Same as the width of the sidenav */

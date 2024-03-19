@@ -44,7 +44,7 @@ function refreshGameBoard(data) {
     $("#firstPlayerName").text(data.firstPlayer.name + "'s larger pit");
     $("#secondPlayerName").text(data.secondPlayer== null ? "second player" : data.secondPlayer.name + "'s larger pit");
     $("#gameLastStr").text(data.lastStr + " <3");
-   // $("#playerlist").text(data.connectedPlayers.join(","));
+    $("#playerlist").text(data.connectedPlayers.join(","));
     setPlayers(data)
 
     if (playerType == "FIRST_PLAYER") {
@@ -69,17 +69,27 @@ function setPlayers(data) {
     let parentDiv = document.getElementById("playerlist2");
   
     while (parentDiv.lastElementChild) { // remove all
-        parentDiv.removeChild(child);
+        parentDiv.removeChild(parentDiv.lastElementChild);
     }
-
+  
       // create playerList
     data.connectedPlayers.forEach(player => {
         const random = Math.floor(Math.random() * colors.length);
-
         const node = document.createElement("div");
+        node.style.height = "20px"
+
+        const textNode = document.createElement("p");
+        textNode.style.display = "inline-block"
+        textNode.style.height = "20px"
         const title = document.createTextNode(player);
-        node.style.color = colors[random]
-        node.appendChild(title);
+        textNode.appendChild(title);
+
+        const color = document.createElement("div")
+        color.classList.add("playerSideNavDiv")
+        color.style.backgroundColor = colors[random]
+
+        node.appendChild(color);
+        node.appendChild(textNode);
         parentDiv.appendChild(node);
     });
 

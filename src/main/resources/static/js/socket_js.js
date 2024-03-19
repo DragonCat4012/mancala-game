@@ -3,6 +3,7 @@ let stompClient;
 let gameId;
 let playerType;
 let gamesShown = false;
+let playersShown = false;
 
 function connectToSocket(gameId) {
     console.log("connecting to the game");
@@ -235,5 +236,23 @@ function connectToSpecificGame() {
                 console.log(error);
             }
         })
+    }
+}
+
+function togglePlayerList() {
+    playersShown = !playersShown
+    let e = document.getElementById("playerSideList");
+
+    if (playersShown) {
+        e.classList.add('sidenavRight');
+        const node = document.createElement("h3");
+        node.appendChild(document.createTextNode("Connected Players"));
+        node.style.color = "white"
+        e.insertBefore(node, e.childNodes[0]);
+    } else {
+        e.classList.remove('sidenavRight');
+        e.children.array.forEach(child => {
+            if(e.id != "playerlist2") { e.removeChild(child);}
+        });
     }
 }
