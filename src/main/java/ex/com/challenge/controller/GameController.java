@@ -44,7 +44,7 @@ public class GameController {
     public ResponseEntity<Game> connect(@RequestBody ConnectRequest request) throws GameException {
         log.info("connect request: {}", request);
         simpMessagingTemplate.convertAndSend("/topic/game-progress/" + request.getGameId(),
-                new PlayerUpdate(request.getPlayer().getName()));
+                new PlayerUpdate(request.getPlayer()));
         return ResponseEntity.ok(gameService.connectToGame(request.getPlayer(), request.getGameId()));
     }
 

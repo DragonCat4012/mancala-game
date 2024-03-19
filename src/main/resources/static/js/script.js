@@ -1,4 +1,4 @@
-var playerTurnNow = "";
+/*var playerTurnNow = "";
 
 function playerTurn(id) {
     if (playerTurnNow != playerType) {
@@ -32,18 +32,7 @@ function makeAMove(id) {
             console.log(error);
         }
     })
-}
-
-function refreshGameBoard(data) {
-    /*if (data.winner != null) {
-        alert("Winner is " + data.winner.name);
-    }
-    playerTurnNow = data.playerTurn;*/
-
-    $("#gameLastStr").text(data.lastStr + " <3");
-    $("#playerlist").text(data.connectedPlayers.join(","));
-    playerList = data.connectedPlayers
-}
+}*/
 
 function copyGameID() {
     var copyText = document.getElementById("game_id_display");
@@ -63,7 +52,7 @@ function setPlayers(data) {
         const textNode = document.createElement("p");
         textNode.style.display = "inline-block"
         textNode.style.height = "20px"
-        const title = document.createTextNode(player);
+        const title = document.createTextNode(player.name + ' [' + player.nationName + ']');
         textNode.appendChild(title);
 
         const color = document.createElement("div")

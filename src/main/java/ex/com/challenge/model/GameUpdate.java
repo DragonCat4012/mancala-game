@@ -10,10 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class GameUpdate {
-    private UpdateType topic = UpdateType.GameUpdate;
+    private final UpdateType topic = UpdateType.GameUpdate;
     private Game game;
-
-    public GameUpdate(Game game) {
-        this.game = game;
-    }
 }

@@ -18,6 +18,8 @@ function connectToSocket(gameId) {
             if (data.topic == "GameUpdate") {
                 refreshGameBoard(data);
             } else if (data.topic == "PlayerUpdate") {
+                let name = document.getElementById("playerlist").textContent;
+                $("#playerlist").text(name + ", " + data.player.name);
                 playerList.push(data.player)
             }
         })
@@ -26,7 +28,8 @@ function connectToSocket(gameId) {
 
 function create_game() {
     let name = document.getElementById("name").value;
-    if (name == null || name === '') {
+    let nationName = document.getElementById("nationName").value;
+    if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
         $.ajax({
@@ -35,7 +38,9 @@ function create_game() {
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
-                "name": name
+                "name": name,
+                "nationName": nationName,
+                "color": "fff"
             }),
             success: function (data) {
                 gameId = data.id;
@@ -79,7 +84,8 @@ function makeTurn() {
 
 function connectToRandom() {
     let name = document.getElementById("name").value;
-    if (name == null || name === '') {
+    let nationName = document.getElementById("nationName").value;
+    if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
         $.ajax({
@@ -88,7 +94,9 @@ function connectToRandom() {
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
-                "name": name
+                "name": name,
+                "nationName": nationName,
+                "color": "fff"
             }),
             success: function (data) {
                 gameId = data.id;
@@ -209,7 +217,8 @@ function updateCopyIDButton(style) {
 
 function connectToSpecificGame() {
     let name = document.getElementById("name").value;
-    if (name == null || name === '') {
+    let nationName = document.getElementById("nationName").value;
+    if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
         gameId = document.getElementById("game_id").value;
@@ -223,7 +232,9 @@ function connectToSpecificGame() {
             contentType: "application/json",
             data: JSON.stringify({
                 "player": {
-                    "name": name
+                    "name": name,
+                    "nationName": nationName,
+                    "color": "ff"
                 },
                 "gameId": gameId
             }),
@@ -268,4 +279,16 @@ function togglePlayerList() {
             child = e.lastElementChild;
         }
     }
+}
+
+function refreshGameBoard(data) {
+    /*if (data.winner != null) {
+        alert("Winner is " + data.winner.name);
+    }
+    playerTurnNow = data.playerTurn;*/
+
+    $("#gameLastStr").text(data.lastStr + " <3");
+    $("#playerlist").text(data.connectedPlayers.map(obj => obj.name).join(","));
+    playerList = data.connectedPlayers
+  //  playerList = data.connectedPlayers
 }
