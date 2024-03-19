@@ -35,6 +35,7 @@ function makeAMove(id) {
 }
 
 function refreshGameBoard(data) {
+   
     if (data.winner != null) {
         alert("Winner is " + data.winner.name);
     }
@@ -42,9 +43,9 @@ function refreshGameBoard(data) {
 
     $("#firstPlayerName").text(data.firstPlayer.name + "'s larger pit");
     $("#secondPlayerName").text(data.secondPlayer== null ? "second player" : data.secondPlayer.name + "'s larger pit");
-    console.log(data)
     $("#gameLastStr").text(data.lastStr + " <3");
-    $("#playerlist").text(data.connectedPlayers.join(","));
+   // $("#playerlist").text(data.connectedPlayers.join(","));
+    setPlayers(data)
 
     if (playerType == "FIRST_PLAYER") {
         $("#firstPlayerName").background="#1472a9";
@@ -61,4 +62,25 @@ function refreshGameBoard(data) {
 function copyGameID() {
     var copyText = document.getElementById("game_id_display");
     navigator.clipboard.writeText(copyText.textContent);
+}
+
+function setPlayers(data) {
+    var colors = ["#83D4AC", "#E5B45F", "#F13939", "#E75DE2", "#796AE3"]
+    let parentDiv = document.getElementById("playerlist2");
+  
+    while (parentDiv.lastElementChild) { // remove all
+        parentDiv.removeChild(child);
+    }
+
+      // create playerList
+    data.connectedPlayers.forEach(player => {
+        const random = Math.floor(Math.random() * colors.length);
+
+        const node = document.createElement("div");
+        const title = document.createTextNode(player);
+        node.style.color = colors[random]
+        node.appendChild(title);
+        parentDiv.appendChild(node);
+    });
+
 }

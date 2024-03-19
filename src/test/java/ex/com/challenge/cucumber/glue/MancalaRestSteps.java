@@ -32,7 +32,7 @@ public class MancalaRestSteps {
 
     @When("first user create a game {string}")
     public void whenFirstUserCreatAGame(String firstUserName) {
-        firstPlayerTest = new Player(firstUserName);
+        firstPlayerTest = new Player(firstUserName, "");
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Player> request = new HttpEntity<>(firstPlayerTest, headers);
         ResponseEntity<Game> gameResponseEntity = testRestTemplate.exchange("/game/create", HttpMethod.POST, request,
@@ -49,7 +49,7 @@ public class MancalaRestSteps {
 
     @When("second user connect to the game {string}")
     public void whenSecondUserJoinTheGame(String secondUserName) {
-        secondPlayerTest = new Player(secondUserName);
+        secondPlayerTest = new Player(secondUserName, "");
         HttpHeaders headers = new HttpHeaders();
         ConnectRequest connectRequest = new ConnectRequest();
         connectRequest.setGameId(game.getId());

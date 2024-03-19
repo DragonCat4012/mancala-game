@@ -24,8 +24,8 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
 class GameServiceTests {
 
-    private final Player firstPlayerTest = new Player("First_Player_Test");
-    private final Player secondPlayerTest = new Player("Second_Player_Test");
+    private final Player firstPlayerTest = new Player("First_Player_Test", "");
+    private final Player secondPlayerTest = new Player("Second_Player_Test", "");
 
     @Mock
     private GameRepository gameRepository;
