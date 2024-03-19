@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MancalaChallengeApplication {
+public class ShyvApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MancalaChallengeApplication.class, args);
+        SpringApplication.run(ShyvApplication.class, args);
     }
 
 }

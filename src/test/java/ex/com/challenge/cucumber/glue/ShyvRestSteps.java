@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Ehsan Sh
  */
 
-public class MancalaRestSteps {
+public class ShyvRestSteps {
 
     @Autowired
     private TestRestTemplate testRestTemplate;

@@ -15,12 +15,12 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import java.time.Duration;
 import java.util.Map;
+
 /**
  * @author Ehsan Sh
  */
 
-
-public class MancalaBrowserSteps {
+public class ShyvBrowserSteps {
 
     @LocalServerPort
     int serverPort;
@@ -31,8 +31,8 @@ public class MancalaBrowserSteps {
     String mainPageUrl;
 
     @Before
-    public void initiate(){
-        mainPageUrl ="http://localhost:" + serverPort + "/";
+    public void initiate() {
+        mainPageUrl = "http://localhost:" + serverPort + "/";
     }
 
     @Given("first user browser is open")
@@ -43,8 +43,7 @@ public class MancalaBrowserSteps {
     private WebDriver openAndInitiateBrowser(Point position) {
         String projectPath = System.getProperty("user.dir");
 
-        System.setProperty("webdriver.gecko.driver"
-                , projectPath + "/src/test/resources/drivers/geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", projectPath + "/src/test/resources/drivers/geckodriver.exe");
         WebDriver webDriver = new FirefoxDriver();
 
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
@@ -97,7 +96,6 @@ public class MancalaBrowserSteps {
 
     }
 
-
     @When("second user enter name in the name box")
     public void secondUserEnterNameInNameBox() {
         secondUserBrowser.findElement(By.id("name")).sendKeys("secondUser");
@@ -131,7 +129,6 @@ public class MancalaBrowserSteps {
         firstUserBrowser.findElement(By.id("pit_1")).click();
     }
 
-
     @Then("board game is updated {string}")
     public void boardGameIsUpdated(String result) throws JsonProcessingException, InterruptedException {
 
@@ -139,7 +136,6 @@ public class MancalaBrowserSteps {
 
         ObjectReader reader = new ObjectMapper().readerFor(Map.class);
         Map<String, String> map = reader.readValue(result);
-
 
         Assert.assertEquals(firstUserBrowser.findElement(By.id("pit_0")).getText(), map.get("pit_0"));
         Assert.assertEquals(firstUserBrowser.findElement(By.id("pit_1")).getText(), map.get("pit_1"));

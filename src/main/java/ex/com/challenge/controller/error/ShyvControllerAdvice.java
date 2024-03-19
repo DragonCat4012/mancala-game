@@ -12,45 +12,42 @@ import org.springframework.web.client.HttpClientErrorException;
  * @author: e.shakeri
  */
 
-
 @ControllerAdvice
 @Slf4j
-public class MancalaControllerAdvice {
+public class ShyvControllerAdvice {
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<?> handleHttpClientErrorException(HttpClientErrorException ex) {
-        String errorMessages= ex.getMessage();
+        String errorMessages = ex.getMessage();
 
         log.error("errorMessage : {} ", errorMessages);
-        return new ResponseEntity<>(errorMessages,ex.getStatusCode() );
+        return new ResponseEntity<>(errorMessages, ex.getStatusCode());
 
     }
 
-
     @ExceptionHandler(GameException.class)
     public ResponseEntity<?> handleRuntimeException(GameException ex) {
-        String errorMessages= ex.getMessage();
+        String errorMessages = ex.getMessage();
 
         log.error("errorMessage : {} ", errorMessages);
-        return new ResponseEntity<>(errorMessages,HttpStatus.BAD_REQUEST );
+        return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
 
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
-        String errorMessages= ex.getMessage();
+        String errorMessages = ex.getMessage();
 
         log.error("errorMessage : {} ", errorMessages);
-        return new ResponseEntity<>(errorMessages,HttpStatus.INTERNAL_SERVER_ERROR );
+        return new ResponseEntity<>(errorMessages, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception ex) {
-        String errorMessages= ex.getMessage();
+        String errorMessages = ex.getMessage();
 
         log.error("errorMessage : {} ", errorMessages);
-        return new ResponseEntity<>(errorMessages,HttpStatus.INTERNAL_SERVER_ERROR );
+        return new ResponseEntity<>(errorMessages, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 }
-

@@ -1,6 +1,6 @@
 package ex.com.challenge.cucumber;
 
-import ex.com.challenge.MancalaChallengeApplication;
+import ex.com.challenge.ShyvApplication;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -14,17 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RunWith(Cucumber.class)
 @CucumberContextConfiguration
 @SpringBootTest(classes = {
-        MancalaChallengeApplication.class,
-        CucumberIntegrationTest.class},
-        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@CucumberOptions(
-        plugin = { "pretty", "html:target/reports/cucumber.html" ,
+                ShyvApplication.class,
+                CucumberIntegrationTest.class }, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@CucumberOptions(plugin = { "pretty", "html:target/reports/cucumber.html",
                 "json:target/reports/cucumber.json",
-                "junit:target/reports/cucumber.xml"},
-        tags = "@smokeTest",
-        features = "src/test/resources/features")
+                "junit:target/reports/cucumber.xml" }, tags = "@smokeTest", features = "src/test/resources/features")
 public class CucumberIntegrationTest {
 
-    public CucumberIntegrationTest() {
-    }
+        public CucumberIntegrationTest() {
+        }
 }
