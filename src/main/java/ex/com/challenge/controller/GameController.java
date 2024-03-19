@@ -3,8 +3,11 @@ package ex.com.challenge.controller;
 import ex.com.challenge.dto.ConnectRequest;
 import ex.com.challenge.exception.GameException;
 import ex.com.challenge.model.Game;
+import ex.com.challenge.model.GameUpdate;
 import ex.com.challenge.model.Sow;
+import ex.com.challenge.model.UpdateType;
 import ex.com.challenge.model.Player;
+import ex.com.challenge.model.PlayerUpdate;
 import ex.com.challenge.service.GameService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +43,8 @@ public class GameController {
     @PostMapping("/connect")
     public ResponseEntity<Game> connect(@RequestBody ConnectRequest request) throws GameException {
         log.info("connect request: {}", request);
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + request.getGameId(),
+                new PlayerUpdate(request.getPlayer().getName()));
         return ResponseEntity.ok(gameService.connectToGame(request.getPlayer(), request.getGameId()));
     }
 
@@ -53,8 +58,8 @@ public class GameController {
     public ResponseEntity<Game> sow(@RequestBody Sow sow) throws GameException {
         log.info("sow: {}", sow);
         Game game = gameService.sow(sow);
-
-        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), new GameUpdate(game));
+        // simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
         return ResponseEntity.ok(game);
     }
 
@@ -64,7 +69,7 @@ public class GameController {
         Game game = gameService.sow(sow);
         game.setLastStr(sow.getNewName());
 
-        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), game);
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + game.getId(), new GameUpdate(game));
         return ResponseEntity.ok(game);
     }
 

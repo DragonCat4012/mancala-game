@@ -35,28 +35,14 @@ function makeAMove(id) {
 }
 
 function refreshGameBoard(data) {
-   
-    if (data.winner != null) {
+    /*if (data.winner != null) {
         alert("Winner is " + data.winner.name);
     }
-    playerTurnNow = data.playerTurn;
+    playerTurnNow = data.playerTurn;*/
 
-    $("#firstPlayerName").text(data.firstPlayer.name + "'s larger pit");
-    $("#secondPlayerName").text(data.secondPlayer== null ? "second player" : data.secondPlayer.name + "'s larger pit");
     $("#gameLastStr").text(data.lastStr + " <3");
     $("#playerlist").text(data.connectedPlayers.join(","));
     playerList = data.connectedPlayers
-
-    if (playerType == "FIRST_PLAYER") {
-        $("#firstPlayerName").background="#1472a9";
-        $("#secondPlayerName").background="#333";
-        $("#opponentLogin").text(data.secondPlayer!= null ? data.secondPlayer.name : "");
-
-    } else {
-        $("#secondPlayerName").background ="#1472a9";
-        $("#firstPlayerName").background="#333";
-        $("#opponentLogin").text(data.firstPlayer.name);
-    }
 }
 
 function copyGameID() {
