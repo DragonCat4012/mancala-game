@@ -45,7 +45,7 @@ function refreshGameBoard(data) {
     $("#secondPlayerName").text(data.secondPlayer== null ? "second player" : data.secondPlayer.name + "'s larger pit");
     $("#gameLastStr").text(data.lastStr + " <3");
     $("#playerlist").text(data.connectedPlayers.join(","));
-    setPlayers(data)
+    playerList = data.connectedPlayers
 
     if (playerType == "FIRST_PLAYER") {
         $("#firstPlayerName").background="#1472a9";
@@ -68,12 +68,8 @@ function setPlayers(data) {
     var colors = ["#83D4AC", "#E5B45F", "#F13939", "#E75DE2", "#796AE3"]
     let parentDiv = document.getElementById("playerlist2");
   
-    while (parentDiv.lastElementChild) { // remove all
-        parentDiv.removeChild(parentDiv.lastElementChild);
-    }
-  
       // create playerList
-    data.connectedPlayers.forEach(player => {
+    data.forEach(player => {
         const random = Math.floor(Math.random() * colors.length);
         const node = document.createElement("div");
         node.style.height = "20px"
@@ -92,5 +88,4 @@ function setPlayers(data) {
         node.appendChild(textNode);
         parentDiv.appendChild(node);
     });
-
 }

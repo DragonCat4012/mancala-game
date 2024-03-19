@@ -4,6 +4,7 @@ let gameId;
 let playerType;
 let gamesShown = false;
 let playersShown = false;
+let playerList =[]
 
 function connectToSocket(gameId) {
     console.log("connecting to the game");
@@ -248,11 +249,19 @@ function togglePlayerList() {
         const node = document.createElement("h3");
         node.appendChild(document.createTextNode("Connected Players"));
         node.style.color = "white"
-        e.insertBefore(node, e.childNodes[0]);
+        e.appendChild(node)
+        
+        const playerlist2 = document.createElement("div");
+        playerlist2.id = "playerlist2"
+        e.appendChild(playerlist2)
+        setPlayers(playerList)
     } else {
         e.classList.remove('sidenavRight');
-        e.children.array.forEach(child => {
-            if(e.id != "playerlist2") { e.removeChild(child);}
-        });
+
+        let child = e.lastElementChild;
+        while (child) {
+            e.removeChild(child);
+            child = e.lastElementChild;
+        }
     }
 }
