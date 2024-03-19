@@ -13,5 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Player {
     private String name;
+    private String nationName = "No Name :c";
     private String color;
+
+    public Player(String name, String color) {
+        this.name = name;
+        this.color = color;
+    }
 }

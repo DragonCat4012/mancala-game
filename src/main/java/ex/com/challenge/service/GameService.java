@@ -31,7 +31,7 @@ public class GameService {
         Game game = new Game();
         game.setId(UUID.randomUUID().toString());
         game.setFirstPlayer(player);
-        game.setConnectedPlayers(Arrays.asList(player.getName()));
+        game.setConnectedPlayers(Arrays.asList(player));
 
         game.setStatus(GameStatusEnum.NEW);
         gameRepository.save(game);
@@ -50,7 +50,7 @@ public class GameService {
 
         game.setSecondPlayer(player);
         var arr = game.getConnectedPlayers();
-        arr.add(player.getName());
+        arr.add(player);
         game.setConnectedPlayers(arr);
         game.setStatus(GameStatusEnum.IN_PROGRESS);
         gameRepository.save(game);

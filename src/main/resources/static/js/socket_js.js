@@ -14,15 +14,23 @@ function connectToSocket(gameId) {
         console.log("connected to the frame: " + frame);
         stompClient.subscribe("/topic/game-progress/" + gameId, function (response) {
             let data = JSON.parse(response.body);
-            console.log(data);
-            refreshGameBoard(data);
+            console.log(data.topic, data);
+            if (data.topic == "GameUpdate") {
+                refreshGameBoard(data);
+            } else if (data.topic == "PlayerUpdate") {
+                let name = document.getElementById("playerlist").textContent;
+                $("#playerlist").text(name + ", " + data.player.name);
+                playerList.push(data.player)
+            }
         })
     })
 }
 
 function create_game() {
     let name = document.getElementById("name").value;
-    if (name == null || name === '') {
+    let nationName = document.getElementById("nationName").value;
+    let nationColor = document.getElementById("nationColor").value;
+    if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
         $.ajax({
@@ -31,7 +39,9 @@ function create_game() {
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
-                "name": name
+                "name": name,
+                "nationName": nationName,
+                "color": nationColor
             }),
             success: function (data) {
                 gameId = data.id;
@@ -75,7 +85,9 @@ function makeTurn() {
 
 function connectToRandom() {
     let name = document.getElementById("name").value;
-    if (name == null || name === '') {
+    let nationName = document.getElementById("nationName").value;
+    let nationColor = document.getElementById("nationColor").value;
+    if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
         $.ajax({
@@ -84,7 +96,9 @@ function connectToRandom() {
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
-                "name": name
+                "name": name,
+                "nationName": nationName,
+                "color": nationColor
             }),
             success: function (data) {
                 gameId = data.id;
@@ -95,6 +109,47 @@ function connectToRandom() {
                 document.getElementById("game_id_display").textContent = data.id;
                 alert("Congrats you're playing with: " + data.firstPlayer.name);
                 updateCopyIDButton("visible")
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+}
+
+function connectToSpecificGame() {
+    let name = document.getElementById("name").value;
+    let nationName = document.getElementById("nationName").value;
+    let nationColor = document.getElementById("nationColor").value;
+    if (name == null || name === '' || nationName == null || nationName === '') {
+        alert("Please enter name");
+    } else {
+        gameId = document.getElementById("game_id").value;
+        if (gameId == null || gameId === '') {
+            alert("Please enter game id");
+        }
+        $.ajax({
+            url: url + "/game/connect",
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "player": {
+                    "name": name,
+                    "nationName": nationName,
+                    "color": nationColor
+                },
+                "gameId": gameId
+            }),
+            success: function (data) {
+                gameId = data.id;
+                playerType = "SECOND_PLAYER";
+                refreshGameBoard(data);
+                connectToSocket(gameId);
+                document.getElementById("playElemnt").textContent = "Gatze";
+                document.getElementById("game_id_display").textContent = data.id;
+                updateCopyIDButton("visible")
+            //    alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {
                 console.log(error);
@@ -203,43 +258,6 @@ function updateCopyIDButton(style) {
     element.style.visibility=style
 }
 
-function connectToSpecificGame() {
-    let name = document.getElementById("name").value;
-    if (name == null || name === '') {
-        alert("Please enter name");
-    } else {
-        gameId = document.getElementById("game_id").value;
-        if (gameId == null || gameId === '') {
-            alert("Please enter game id");
-        }
-        $.ajax({
-            url: url + "/game/connect",
-            type: 'POST',
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                "player": {
-                    "name": name
-                },
-                "gameId": gameId
-            }),
-            success: function (data) {
-                gameId = data.id;
-                playerType = "SECOND_PLAYER";
-                refreshGameBoard(data);
-                connectToSocket(gameId);
-                document.getElementById("playElemnt").textContent = "Gatze";
-                document.getElementById("game_id_display").textContent = data.id;
-                updateCopyIDButton("visible")
-            //    alert("Congrats you're playing with: " + data.firstPlayer.name);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        })
-    }
-}
-
 function togglePlayerList() {
     playersShown = !playersShown
     let e = document.getElementById("playerSideList");
@@ -264,4 +282,15 @@ function togglePlayerList() {
             child = e.lastElementChild;
         }
     }
+}
+
+function refreshGameBoard(data) {
+    /*if (data.winner != null) {
+        alert("Winner is " + data.winner.name);
+    }
+    playerTurnNow = data.playerTurn;*/
+
+    $("#gameLastStr").text(data.lastStr + " <3");
+    $("#playerlist").text(data.connectedPlayers.map(obj => obj.name).join(","));
+    playerList = data.connectedPlayers
 }

@@ -1,4 +1,4 @@
-var playerTurnNow = "";
+/*var playerTurnNow = "";
 
 function playerTurn(id) {
     if (playerTurnNow != playerType) {
@@ -32,32 +32,7 @@ function makeAMove(id) {
             console.log(error);
         }
     })
-}
-
-function refreshGameBoard(data) {
-   
-    if (data.winner != null) {
-        alert("Winner is " + data.winner.name);
-    }
-    playerTurnNow = data.playerTurn;
-
-    $("#firstPlayerName").text(data.firstPlayer.name + "'s larger pit");
-    $("#secondPlayerName").text(data.secondPlayer== null ? "second player" : data.secondPlayer.name + "'s larger pit");
-    $("#gameLastStr").text(data.lastStr + " <3");
-    $("#playerlist").text(data.connectedPlayers.join(","));
-    playerList = data.connectedPlayers
-
-    if (playerType == "FIRST_PLAYER") {
-        $("#firstPlayerName").background="#1472a9";
-        $("#secondPlayerName").background="#333";
-        $("#opponentLogin").text(data.secondPlayer!= null ? data.secondPlayer.name : "");
-
-    } else {
-        $("#secondPlayerName").background ="#1472a9";
-        $("#firstPlayerName").background="#333";
-        $("#opponentLogin").text(data.firstPlayer.name);
-    }
-}
+}*/
 
 function copyGameID() {
     var copyText = document.getElementById("game_id_display");
@@ -65,7 +40,6 @@ function copyGameID() {
 }
 
 function setPlayers(data) {
-    var colors = ["#83D4AC", "#E5B45F", "#F13939", "#E75DE2", "#796AE3"]
     let parentDiv = document.getElementById("playerlist2");
   
       // create playerList
@@ -77,12 +51,12 @@ function setPlayers(data) {
         const textNode = document.createElement("p");
         textNode.style.display = "inline-block"
         textNode.style.height = "20px"
-        const title = document.createTextNode(player);
+        const title = document.createTextNode(player.name + ' [' + player.nationName + ']');
         textNode.appendChild(title);
 
         const color = document.createElement("div")
         color.classList.add("playerSideNavDiv")
-        color.style.backgroundColor = colors[random]
+        color.style.backgroundColor =  player.color
 
         node.appendChild(color);
         node.appendChild(textNode);

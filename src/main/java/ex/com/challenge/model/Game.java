@@ -19,7 +19,7 @@ import java.util.List;
 public class Game {
     @Id
     private String id;
-    private List<String> connectedPlayers;
+    private List<Player> connectedPlayers;
     private GameStatusEnum status;
     private Player firstPlayer;
     private Player secondPlayer;
