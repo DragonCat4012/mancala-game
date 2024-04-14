@@ -5,7 +5,6 @@ import ex.com.challenge.exception.GameException;
 import ex.com.challenge.model.Game;
 import ex.com.challenge.model.GameUpdate;
 import ex.com.challenge.model.Sow;
-import ex.com.challenge.model.UpdateType;
 import ex.com.challenge.model.Player;
 import ex.com.challenge.model.PlayerUpdate;
 import ex.com.challenge.service.GameService;
@@ -14,13 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.messaging.SessionConnectEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 /**
  * @author: e.shakeri
@@ -31,6 +34,18 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("/game")
 public class GameController {
+
+    @EventListener
+    public void onConnectedEvent(SessionConnectEvent event) {
+        log.warn("New Client with connected");
+    }
+
+    @EventListener
+    public void onDisconnectEvent(SessionDisconnectEvent event) {
+        //SessionDisconnectEvent[sessionId=zgsbsc5u, CloseStatus[code=1000, reason=null]]
+        log.warn("Client with {} disconnected", event.getSessionId());
+    }
+
     private final GameService gameService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
