@@ -44,7 +44,7 @@ function setPlayers(data) {
   
       // create playerList
     data.forEach(player => {
-        const random = Math.floor(Math.random() * colors.length);
+       //const random = Math.floor(Math.random() * colors.length);
         const node = document.createElement("div");
         node.style.height = "20px"
 
