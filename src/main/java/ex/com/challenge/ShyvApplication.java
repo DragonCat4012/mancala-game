@@ -9,5 +9,4 @@ public class ShyvApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShyvApplication.class, args);
     }
-
 }

@@ -5,6 +5,9 @@ let playerType;
 let gamesShown = false;
 let playersShown = false;
 let playerList =[]
+let isConnected = false;
+let self = new selfPlayer("x", "x", "fff")
+
 
 function connectToSocket(gameId) {
     console.log("connecting to the game");
@@ -12,6 +15,8 @@ function connectToSocket(gameId) {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log("connected to the frame: " + frame);
+        hideOptionsOnConnect()
+
         stompClient.subscribe("/topic/game-progress/" + gameId, function (response) {
             let data = JSON.parse(response.body);
             console.log(data.topic, data);
@@ -26,10 +31,22 @@ function connectToSocket(gameId) {
     })
 }
 
+function hideOptionsOnConnect() {
+    document.getElementById("gameParts").hidden = true
+
+    // show userinfo
+    document.getElementById("userInfo").removeAttribute("hidden");
+    let name = document.getElementById("userinfoName")
+    name.textContent = self.getFullName()
+    name.style.color = self.color
+}
+
 function create_game() {
     let name = document.getElementById("name").value;
     let nationName = document.getElementById("nationName").value;
     let nationColor = document.getElementById("nationColor").value;
+    self = new selfPlayer(name, nationName, nationColor)
+
     if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
@@ -87,6 +104,8 @@ function connectToRandom() {
     let name = document.getElementById("name").value;
     let nationName = document.getElementById("nationName").value;
     let nationColor = document.getElementById("nationColor").value;
+    self = new selfPlayer(name, nationName, nationColor)
+
     if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
@@ -121,6 +140,8 @@ function connectToSpecificGame() {
     let name = document.getElementById("name").value;
     let nationName = document.getElementById("nationName").value;
     let nationColor = document.getElementById("nationColor").value;
+    self = new selfPlayer(name, nationName, nationColor)
+    
     if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {

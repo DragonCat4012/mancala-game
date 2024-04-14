@@ -63,3 +63,16 @@ function setPlayers(data) {
         parentDiv.appendChild(node);
     });
 }
+
+
+class selfPlayer {
+    constructor(name, nation, color) {
+      this.name = name;
+      this.nation = nation;
+      this.color = color;
+    }
+
+    getFullName() {
+        return this.name + " [" + this.nation + "]"
+    }
+  }
