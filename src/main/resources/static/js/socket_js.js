@@ -7,7 +7,7 @@ let playersShown = false;
 let playerList =[]
 let isConnected = false;
 let self = new selfPlayer("x", "x", "fff")
-
+let sessionId = "";
 
 function connectToSocket(gameId) {
     console.log("connecting to the game");
@@ -117,7 +117,8 @@ function connectToRandom() {
             data: JSON.stringify({
                 "name": name,
                 "nationName": nationName,
-                "color": nationColor
+                "color": nationColor,
+                "sessionID": sessionId
             }),
             success: function (data) {
                 gameId = data.id;
@@ -158,7 +159,8 @@ function connectToSpecificGame() {
                 "player": {
                     "name": name,
                     "nationName": nationName,
-                    "color": nationColor
+                    "color": nationColor,
+                    "sessionID": sessionId
                 },
                 "gameId": gameId
             }),

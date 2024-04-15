@@ -15,9 +15,11 @@ public class Player {
     private String name;
     private String nationName = "No Name :c";
     private String color;
+    private String sessionID;
 
     public Player(String name, String color) {
         this.name = name;
         this.color = color;
+        this.sessionID = "x";
     }
 }
