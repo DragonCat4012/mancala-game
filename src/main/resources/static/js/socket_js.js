@@ -12,13 +12,13 @@ let e = ""
 function connectToSocket(gameId) {
     console.log("connecting to the game");
     // let sessionId = utils.random_string(8);
-    let socket = new SockJS(url + "/sow", [], {
-        sessionId: () => {
-            e = sessionId
-            //  sessionId = sessionId
-        }
-    });
-    // let socket = new SockJS(url + "/sow");
+    /*  let socket = new SockJS(url + "/sow", [], {
+          sessionId: () => {
+              e = sessionId
+              //  sessionId = sessionId
+          }
+      });*/
+    let socket = new SockJS(url + "/sow");
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function (frame) {
