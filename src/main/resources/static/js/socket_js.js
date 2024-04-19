@@ -4,17 +4,29 @@ let gameId;
 let playerType;
 let gamesShown = false;
 let playersShown = false;
-let playerList =[]
+let playerList = []
 let isConnected = false;
 let self = new selfPlayer("x", "x", "fff")
+let sessionRef = "";
+let e = ""
 
 
 function connectToSocket(gameId) {
     console.log("connecting to the game");
+    // let sessionId = utils.random_string(8);
+    /*  let socket = new SockJS(url + "/sow", [], {
+          sessionId: () => {
+              e = sessionId
+              //  sessionId = sessionId
+          }
+      });*/
     let socket = new SockJS(url + "/sow");
     stompClient = Stomp.over(socket);
+    
     stompClient.connect({}, function (frame) {
-        console.log("connected to the frame: " + frame);
+        socket._generateSessionId()
+        sessionRef = stompClient.ws._transport.url.split("sow/")[1].split("/")[1]
+       // console.log(stompClient.ws._transport.url.split("sow/")[1].split("/")[1])
         hideOptionsOnConnect()
 
         stompClient.subscribe("/topic/game-progress/" + gameId, function (response) {
@@ -53,12 +65,14 @@ function create_game() {
         $.ajax({
             url: url + "/game/create",
             type: 'POST',
+            transports: ['websocket'],
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify({
                 "name": name,
                 "nationName": nationName,
-                "color": nationColor
+                "color": nationColor,
+                "sessionID": sessionRef
             }),
             success: function (data) {
                 gameId = data.id;
@@ -68,7 +82,7 @@ function create_game() {
                 document.getElementById("playElemnt").textContent = "Doggo";
                 document.getElementById("game_id_display").textContent = data.id;
                 updateCopyIDButton("visible")
-             //   alert("Your created a game. Game id is: " + data.id);
+                //   alert("Your created a game. Game id is: " + data.id);
             },
             error: function (error) {
                 console.log(error);
@@ -117,7 +131,8 @@ function connectToRandom() {
             data: JSON.stringify({
                 "name": name,
                 "nationName": nationName,
-                "color": nationColor
+                "color": nationColor,
+                "sessionID": sessionRef
             }),
             success: function (data) {
                 gameId = data.id;
@@ -141,7 +156,7 @@ function connectToSpecificGame() {
     let nationName = document.getElementById("nationName").value;
     let nationColor = document.getElementById("nationColor").value;
     self = new selfPlayer(name, nationName, nationColor)
-    
+
     if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
     } else {
@@ -158,7 +173,8 @@ function connectToSpecificGame() {
                 "player": {
                     "name": name,
                     "nationName": nationName,
-                    "color": nationColor
+                    "color": nationColor,
+                    "sessionID": sessionRef
                 },
                 "gameId": gameId
             }),
@@ -170,7 +186,7 @@ function connectToSpecificGame() {
                 document.getElementById("playElemnt").textContent = "Gatze";
                 document.getElementById("game_id_display").textContent = data.id;
                 updateCopyIDButton("visible")
-            //    alert("Congrats you're playing with: " + data.firstPlayer.name);
+                //    alert("Congrats you're playing with: " + data.firstPlayer.name);
             },
             error: function (error) {
                 console.log(error);
@@ -201,7 +217,7 @@ function loadGameLog() {
             titleNode.appendChild(title);
             div.appendChild(titleNode);
             div.classList.add('sidenav');
-            
+
             for (const game of data) {
                 // ...use `element`...
                 const node = document.createElement("div");
@@ -210,19 +226,19 @@ function loadGameLog() {
 
                 // date
                 var d = new Date(game.createdAt)
-                var datestring = ("0" + d.getDate()).slice(-2) + "." + ("0"+(d.getMonth()+1)).slice(-2) + "." +  d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+                var datestring = ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." + d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
 
                 const nodeDateParent = document.createElement("p");
                 nodeDateParent.style.color = "gray"
                 const dateNode = document.createTextNode(datestring);
                 nodeDateParent.appendChild(dateNode);
 
-               // button
+                // button
                 const finsihButton = document.createElement('button')
                 finsihButton.classList.add("btn")
                 const finsihButtonText = document.createTextNode("End");
                 finsihButton.appendChild(finsihButtonText)
-                finsihButton.onclick = function(){endgameFromList(game.id)};
+                finsihButton.onclick = function () { endgameFromList(game.id) };
 
                 node.appendChild(gameiD);
                 node.appendChild(nodeDateParent);
@@ -237,46 +253,46 @@ function loadGameLog() {
 }
 
 function endgameFromList(gameId) {
-$.ajax({
-    url: url + "/game/endgame",
-    type: 'POST',
-    dataType: "json",
-    contentType: "application/json",
-    data: gameId,
-    success: function () {
-        showAllGames()
-    },
-    error: function (error) {
-       // console.log(error);
-        showAllGames()
-    }
-})
+    $.ajax({
+        url: url + "/game/endgame",
+        type: 'POST',
+        dataType: "json",
+        contentType: "application/json",
+        data: gameId,
+        success: function () {
+            showAllGames()
+        },
+        error: function (error) {
+            // console.log(error);
+            showAllGames()
+        }
+    })
 }
 
 function deleteOldGameslog() {
     let e = document.getElementById("gameslog");
     e.classList.remove('sidenav');
-        //e.firstElementChild can be used. 
-        let child = e.lastElementChild;
-        while (child) {
-            e.removeChild(child);
-            child = e.lastElementChild;
-        }
+    //e.firstElementChild can be used. 
+    let child = e.lastElementChild;
+    while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
+    }
 }
 
 function hideGameOptions() {
     let element = document.getElementById("gameParts")
 
-    if (element.style.visibility=="hidden") {
-        element.style.visibility="visible"
+    if (element.style.visibility == "hidden") {
+        element.style.visibility = "visible"
     } else {
-        element.style.visibility="hidden"
-    } 
+        element.style.visibility = "hidden"
+    }
 }
 
 function updateCopyIDButton(style) {
     let element = document.getElementById("gameIDCopy")
-    element.style.visibility=style
+    element.style.visibility = style
 }
 
 function togglePlayerList() {
@@ -289,7 +305,7 @@ function togglePlayerList() {
         node.appendChild(document.createTextNode("Connected Players"));
         node.style.color = "white"
         e.appendChild(node)
-        
+
         const playerlist2 = document.createElement("div");
         playerlist2.id = "playerlist2"
         e.appendChild(playerlist2)
