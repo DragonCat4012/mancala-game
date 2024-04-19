@@ -7,8 +7,10 @@ let playersShown = false;
 let playerList = []
 let isConnected = false;
 let self = new selfPlayer("x", "x", "fff")
-let sessionId = "";
+let sessionRef = "";
 let e = ""
+
+
 function connectToSocket(gameId) {
     console.log("connecting to the game");
     // let sessionId = utils.random_string(8);
@@ -20,16 +22,11 @@ function connectToSocket(gameId) {
       });*/
     let socket = new SockJS(url + "/sow");
     stompClient = Stomp.over(socket);
-
+    
     stompClient.connect({}, function (frame) {
-        console.log("connected to the frame: " + frame.headers);
-        //  sessionId = socket.sessionId
         socket._generateSessionId()
-        sessionId = socket._transport.unloadRef
-        console.log(socket._transport.unloadRef); //"qwge2xzq"
-        //console.log(socket.id)
-        console.log("connected, session id: " + socket.sessionID);
-        console.log("connected, session id: " + socket.sessionId);
+        sessionRef = stompClient.ws._transport.url.split("sow/")[1].split("/")[1]
+       // console.log(stompClient.ws._transport.url.split("sow/")[1].split("/")[1])
         hideOptionsOnConnect()
 
         stompClient.subscribe("/topic/game-progress/" + gameId, function (response) {
@@ -44,7 +41,6 @@ function connectToSocket(gameId) {
             }
         })
     })
-    console.log("connected, session id qwq: " + socket.sessionID);
 }
 
 function hideOptionsOnConnect() {
@@ -76,7 +72,7 @@ function create_game() {
                 "name": name,
                 "nationName": nationName,
                 "color": nationColor,
-                "sessionID": sessionId
+                "sessionID": sessionRef
             }),
             success: function (data) {
                 gameId = data.id;
@@ -136,7 +132,7 @@ function connectToRandom() {
                 "name": name,
                 "nationName": nationName,
                 "color": nationColor,
-                "sessionID": sessionId
+                "sessionID": sessionRef
             }),
             success: function (data) {
                 gameId = data.id;
@@ -178,7 +174,7 @@ function connectToSpecificGame() {
                     "name": name,
                     "nationName": nationName,
                     "color": nationColor,
-                    "sessionID": sessionId
+                    "sessionID": sessionRef
                 },
                 "gameId": gameId
             }),
