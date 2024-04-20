@@ -11,25 +11,49 @@ let sessionRef = "";
 let e = ""
 
 
-function connectToSocket(gameId) {
-    console.log("connecting to the game");
-    // let sessionId = utils.random_string(8);
-    /*  let socket = new SockJS(url + "/sow", [], {
-          sessionId: () => {
-              e = sessionId
-              //  sessionId = sessionId
-          }
-      });*/
+async function connectToSocket() {
     let socket = new SockJS(url + "/sow");
     stompClient = Stomp.over(socket);
-    
-    stompClient.connect({}, function (frame) {
-        socket._generateSessionId()
-        sessionRef = stompClient.ws._transport.url.split("sow/")[1].split("/")[1]
-       // console.log(stompClient.ws._transport.url.split("sow/")[1].split("/")[1])
-        hideOptionsOnConnect()
+    stompClient.debug = function (msg) {
+        console.log("h", msg)
+    }
 
+    let prom = new Promise((resolve, reject) => {
+        stompClient.connect({}, function (frame) {
+            sessionRef = stompClient.ws._transport.url.split("sow/")[1].split("/")[1]
+
+            stompClient.subscribe("/topic/game-progress", function (response) {
+                console.log("A")
+                let data = JSON.parse(response.body);
+                console.log(data.topic, data);
+
+                if (data.topic == "PlayerConnect") {
+                    playerList.push("e")
+                } else if (data.topic == "PlayerDisconnect") {
+                    playerList.forEach((p) => {
+                        if (p.sessionID == data.sessionID) {
+                            p.connected = false
+                        }
+                    })
+                }
+            })
+            resolve()
+        })
+    });
+
+
+    return prom;
+}
+
+function subscribeToGame(gameId) {
+    console.log("connecting to the game");
+    hideOptionsOnConnect()
+
+    if (!isConnected) {
         stompClient.subscribe("/topic/game-progress/" + gameId, function (response) {
+            isConnected = true
+            hideOptionsOnConnect()
+
             let data = JSON.parse(response.body);
             console.log(data.topic, data);
             if (data.topic == "GameUpdate") {
@@ -40,7 +64,8 @@ function connectToSocket(gameId) {
                 playerList.push(data.player)
             }
         })
-    })
+    }
+
 }
 
 function hideOptionsOnConnect() {
@@ -53,11 +78,14 @@ function hideOptionsOnConnect() {
     name.style.color = self.color
 }
 
-function create_game() {
+async function create_game() {
+    await connectToSocket()
     let name = document.getElementById("name").value;
     let nationName = document.getElementById("nationName").value;
     let nationColor = document.getElementById("nationColor").value;
     self = new selfPlayer(name, nationName, nationColor)
+
+    console.log("qqw", sessionRef)
 
     if (name == null || name === '' || nationName == null || nationName === '') {
         alert("Please enter name");
@@ -78,7 +106,8 @@ function create_game() {
                 gameId = data.id;
                 playerType = 'FIRST_PLAYER';
                 refreshGameBoard(data);
-                connectToSocket(gameId);
+
+                subscribeToGame(gameId);
                 document.getElementById("playElemnt").textContent = "Doggo";
                 document.getElementById("game_id_display").textContent = data.id;
                 updateCopyIDButton("visible")
@@ -106,7 +135,7 @@ function makeTurn() {
         success: function (data) {
             gameId = data.id;
             refreshGameBoard(data);
-            connectToSocket(gameId);
+            // subscribeToGame(gameId);
         },
         error: function (error) {
             console.log(error);
@@ -114,7 +143,8 @@ function makeTurn() {
     })
 }
 
-function connectToRandom() {
+async function connectToRandom() {
+    await connectToSocket()
     let name = document.getElementById("name").value;
     let nationName = document.getElementById("nationName").value;
     let nationColor = document.getElementById("nationColor").value;
@@ -138,7 +168,7 @@ function connectToRandom() {
                 gameId = data.id;
                 playerType = "SECOND_PLAYER";
                 refreshGameBoard(data);
-                connectToSocket(gameId);
+                subscribeToGame(gameId);
                 document.getElementById("playElemnt").textContent = "Gatze";
                 document.getElementById("game_id_display").textContent = data.id;
                 alert("Congrats you're playing with: " + data.firstPlayer.name);
@@ -151,7 +181,8 @@ function connectToRandom() {
     }
 }
 
-function connectToSpecificGame() {
+async function connectToSpecificGame() {
+    await connectToSocket()
     let name = document.getElementById("name").value;
     let nationName = document.getElementById("nationName").value;
     let nationColor = document.getElementById("nationColor").value;
@@ -182,7 +213,7 @@ function connectToSpecificGame() {
                 gameId = data.id;
                 playerType = "SECOND_PLAYER";
                 refreshGameBoard(data);
-                connectToSocket(gameId);
+                subscribeToGame(gameId);
                 document.getElementById("playElemnt").textContent = "Gatze";
                 document.getElementById("game_id_display").textContent = data.id;
                 updateCopyIDButton("visible")

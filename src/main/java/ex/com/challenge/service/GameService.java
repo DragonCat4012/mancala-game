@@ -57,6 +57,21 @@ public class GameService {
         return game;
     }
 
+    public void disconnectPlayer(String sessionID) {
+        List<Game> optionalGame = gameRepository.findAll();
+        System.out.println(optionalGame);
+
+        for (Game game : optionalGame) {
+            var arr = game.getConnectedPlayers();
+            arr.stream().filter(x -> x.getSessionID() == sessionID).toArray();
+
+            for (Player player : arr) {
+                player.setConnected(false);
+            }
+            gameRepository.save(game);
+        }
+    }
+
     public List<Game> getAllGames() {
         return gameRepository.findAll().stream().sorted(Comparator.comparing(Game::getCreatedAt).reversed()).toList();
     }

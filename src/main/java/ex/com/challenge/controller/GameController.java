@@ -7,6 +7,7 @@ import ex.com.challenge.model.GameUpdate;
 import ex.com.challenge.model.Sow;
 import ex.com.challenge.model.Player;
 import ex.com.challenge.model.PlayerUpdate;
+import ex.com.challenge.model.GamePlayerUpdate;
 import ex.com.challenge.service.GameService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,12 +39,15 @@ public class GameController {
     @EventListener
     public void onConnectedEvent(SessionConnectEvent event) {
         log.warn("New Client with connected");
+        simpMessagingTemplate.convertAndSend("/topic/game-progress", new GamePlayerUpdate("xxxxx"));
     }
 
     @EventListener
     public void onDisconnectEvent(SessionDisconnectEvent event) {
-        //SessionDisconnectEvent[sessionId=zgsbsc5u, CloseStatus[code=1000, reason=null]]
         log.warn("Client with {} disconnected", event.getSessionId());
+        // TODO: send game?
+        simpMessagingTemplate.convertAndSend("/topic/game-progress", new GamePlayerUpdate(event.getSessionId()));
+        // gameService.disconnectPlayer(event.getSessionId());
     }
 
     private final GameService gameService;

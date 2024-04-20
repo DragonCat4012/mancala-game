@@ -41,10 +41,11 @@ function copyGameID() {
 
 function setPlayers(data) {
     let parentDiv = document.getElementById("playerlist2");
-  
-      // create playerList
+
+    // create playerList
     data.forEach(player => {
-       //const random = Math.floor(Math.random() * colors.length);
+        if (!player.connected) { return }
+        //const random = Math.floor(Math.random() * colors.length);
         const node = document.createElement("div");
         node.style.height = "20px"
 
@@ -56,7 +57,7 @@ function setPlayers(data) {
 
         const color = document.createElement("div")
         color.classList.add("playerSideNavDiv")
-        color.style.backgroundColor =  player.color
+        color.style.backgroundColor = player.color
 
         node.appendChild(color);
         node.appendChild(textNode);
@@ -67,12 +68,12 @@ function setPlayers(data) {
 
 class selfPlayer {
     constructor(name, nation, color) {
-      this.name = name;
-      this.nation = nation;
-      this.color = color;
+        this.name = name;
+        this.nation = nation;
+        this.color = color;
     }
 
     getFullName() {
         return this.name + " [" + this.nation + "]"
     }
-  }
+}
