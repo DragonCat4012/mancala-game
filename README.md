@@ -3,8 +3,8 @@ Shyv
 Websocket Game Base idk yet xd
 
 ## Features
-Connect to game, send cat/dog, end games from list of unfinished Games
-
+* Connect to game, send cat/dog, end games from list of unfinished Games
+* View current active games
 
 Technologies
 ------------
@@ -29,6 +29,7 @@ Packaging the Project into `.jar`, run:
 ```Shell
 mvnw.cmd clean package
 ```
+Info: run in cmd not powershell....
 To run the projct on docker visit [spring-boot-docker](https://spring.io/guides/topicals/spring-boot-docker)
 
 [Base Source](https://ehsanasadev.github.io/Create_interactive_game_with_Spring_Boot_and_WebSocket/)
