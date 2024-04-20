@@ -9,6 +9,11 @@ let isConnected = false;
 let self = new selfPlayer("x", "x", "fff")
 let sessionRef = "";
 
+
+// Initz random color
+let nationColor = document.getElementById("nationColor")
+nationColor.value = "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
+
 async function connectToSocket() {
     let socket = new SockJS(url + "/sow");
     stompClient = Stomp.over(socket);
@@ -31,7 +36,7 @@ async function connectToSocket() {
                     playerList.forEach((p) => {
                         if (p.sessionID == data.sessionID) {
                             p.connected = false
-                            $("#playerlist").text(playerList.filter(p => p.connected == true).map(obj => obj.name).join(","));
+                            $("#playerlist").text(playerList.filter(p => p.connected == true && p.name != self.name).map(obj => obj.name).join(","));
                             if (playersShown) {
                                 updatePlayerList()
                             }
@@ -59,7 +64,7 @@ function subscribeToGame(gameId) {
             let data = JSON.parse(response.body);
             console.log(data.topic, data);
             if (data.topic == "GameUpdate") {
-                refreshGameBoard(data);
+                refreshGameBoard(data.game);
             } else if (data.topic == "PlayerUpdate") {
                 let name = document.getElementById("playerlist").textContent;
                 $("#playerlist").text(name + ", " + data.player.name);
@@ -73,6 +78,9 @@ function subscribeToGame(gameId) {
 function hideOptionsOnConnect() {
     document.getElementById("gameParts").hidden = true
 
+    // show id
+    let id = document.getElementById("gameSessionId")
+    id.textContent = "SessionID: " + sessionRef
     // show userinfo
     document.getElementById("userInfo").removeAttribute("hidden");
     let name = document.getElementById("userinfoName")
@@ -137,7 +145,6 @@ function makeTurn() {
         success: function (data) {
             gameId = data.id;
             refreshGameBoard(data);
-            // subscribeToGame(gameId);
         },
         error: function (error) {
             console.log(error);
@@ -373,6 +380,6 @@ function refreshGameBoard(data) {
     playerTurnNow = data.playerTurn;*/
 
     $("#gameLastStr").text(data.lastStr + " <3");
-    $("#playerlist").text(data.connectedPlayers.filter(p => p.connected == true).map(obj => obj.name).join(","));
+    $("#playerlist").text(data.connectedPlayers.filter(p => p.connected == true && p.sessionID != sessionRef).map(obj => obj.name).join(","));
     playerList = data.connectedPlayers
 }
