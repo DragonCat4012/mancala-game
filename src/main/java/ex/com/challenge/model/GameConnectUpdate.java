@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class GamePlayerUpdate {
+public class GameConnectUpdate {
     private final UpdateType topic = UpdateType.PlayerConnect;
-    private String sessionID;
+    private Player player;
+
+    /*GameConnectUpdate(Player player) {
+        this.player = player;
+    }*/
 }

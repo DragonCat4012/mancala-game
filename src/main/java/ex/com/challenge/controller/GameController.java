@@ -5,9 +5,11 @@ import ex.com.challenge.exception.GameException;
 import ex.com.challenge.model.Game;
 import ex.com.challenge.model.GameUpdate;
 import ex.com.challenge.model.Sow;
+import ex.com.challenge.model.UpdateType;
 import ex.com.challenge.model.Player;
 import ex.com.challenge.model.PlayerUpdate;
-import ex.com.challenge.model.GamePlayerUpdate;
+import ex.com.challenge.model.GameConnectUpdate;
+import ex.com.challenge.model.GameDisconnectUpdate;
 import ex.com.challenge.service.GameService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,14 +41,14 @@ public class GameController {
     @EventListener
     public void onConnectedEvent(SessionConnectEvent event) {
         log.warn("New Client with connected");
-        simpMessagingTemplate.convertAndSend("/topic/game-progress", new GamePlayerUpdate("xxxxx"));
     }
 
     @EventListener
     public void onDisconnectEvent(SessionDisconnectEvent event) {
         log.warn("Client with {} disconnected", event.getSessionId());
         // TODO: send game?
-        simpMessagingTemplate.convertAndSend("/topic/game-progress", new GamePlayerUpdate(event.getSessionId()));
+        simpMessagingTemplate.convertAndSend("/topic/game-progress",
+                new GameDisconnectUpdate(event.getSessionId()));
         // gameService.disconnectPlayer(event.getSessionId());
     }
 
@@ -64,6 +66,9 @@ public class GameController {
         log.info("connect request: {}", request);
         simpMessagingTemplate.convertAndSend("/topic/game-progress/" + request.getGameId(),
                 new PlayerUpdate(request.getPlayer()));
+
+        simpMessagingTemplate.convertAndSend("/topic/game-progress",
+                new GameConnectUpdate(request.getPlayer()));
         return ResponseEntity.ok(gameService.connectToGame(request.getPlayer(), request.getGameId()));
     }
 

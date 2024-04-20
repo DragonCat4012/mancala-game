@@ -8,31 +8,33 @@ let playerList = []
 let isConnected = false;
 let self = new selfPlayer("x", "x", "fff")
 let sessionRef = "";
-let e = ""
-
 
 async function connectToSocket() {
     let socket = new SockJS(url + "/sow");
     stompClient = Stomp.over(socket);
-    stompClient.debug = function (msg) {
-        console.log("h", msg)
-    }
 
     let prom = new Promise((resolve, reject) => {
         stompClient.connect({}, function (frame) {
             sessionRef = stompClient.ws._transport.url.split("sow/")[1].split("/")[1]
 
             stompClient.subscribe("/topic/game-progress", function (response) {
-                console.log("A")
+                console.log("GameUpdate Players")
                 let data = JSON.parse(response.body);
                 console.log(data.topic, data);
 
                 if (data.topic == "PlayerConnect") {
-                    playerList.push("e")
+                    if (playersShown) {
+                        updatePlayerList()
+                    }
+                    // playerList.push(data.player)
                 } else if (data.topic == "PlayerDisconnect") {
                     playerList.forEach((p) => {
                         if (p.sessionID == data.sessionID) {
                             p.connected = false
+                            $("#playerlist").text(playerList.filter(p => p.connected == true).map(obj => obj.name).join(","));
+                            if (playersShown) {
+                                updatePlayerList()
+                            }
                         }
                     })
                 }
@@ -331,16 +333,7 @@ function togglePlayerList() {
     let e = document.getElementById("playerSideList");
 
     if (playersShown) {
-        e.classList.add('sidenavRight');
-        const node = document.createElement("h3");
-        node.appendChild(document.createTextNode("Connected Players"));
-        node.style.color = "white"
-        e.appendChild(node)
-
-        const playerlist2 = document.createElement("div");
-        playerlist2.id = "playerlist2"
-        e.appendChild(playerlist2)
-        setPlayers(playerList)
+        updatePlayerList()
     } else {
         e.classList.remove('sidenavRight');
 
@@ -352,6 +345,27 @@ function togglePlayerList() {
     }
 }
 
+function updatePlayerList() {
+    let e = document.getElementById("playerSideList");
+    let child = e.lastElementChild;
+    while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
+    }
+
+    //update
+    e.classList.add('sidenavRight');
+    const node = document.createElement("h3");
+    node.appendChild(document.createTextNode("Connected Players"));
+    node.style.color = "white"
+    e.appendChild(node)
+
+    const playerlist2 = document.createElement("div");
+    playerlist2.id = "playerlist2"
+    e.appendChild(playerlist2)
+    setPlayers(playerList)
+}
+
 function refreshGameBoard(data) {
     /*if (data.winner != null) {
         alert("Winner is " + data.winner.name);
@@ -359,6 +373,6 @@ function refreshGameBoard(data) {
     playerTurnNow = data.playerTurn;*/
 
     $("#gameLastStr").text(data.lastStr + " <3");
-    $("#playerlist").text(data.connectedPlayers.map(obj => obj.name).join(","));
+    $("#playerlist").text(data.connectedPlayers.filter(p => p.connected == true).map(obj => obj.name).join(","));
     playerList = data.connectedPlayers
 }
